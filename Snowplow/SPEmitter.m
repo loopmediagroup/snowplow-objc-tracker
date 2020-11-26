@@ -73,6 +73,8 @@ const NSUInteger POST_WRAPPER_BYTES = 88;
         _dataOperationQueue = [[NSOperationQueue alloc] init];
         _builderFinished = NO;
         _customPostPath = nil;
+        _integrationKey = nil;
+        _statsCollectorVersion = nil;
         _eventStore = nil;
         _networkConnection = nil;
     }
@@ -102,6 +104,8 @@ const NSUInteger POST_WRAPPER_BYTES = 88;
         [builder setEmitThreadPoolSize:strongSelf->_emitThreadPoolSize];
         [builder setByteLimitGet:strongSelf->_byteLimitGet];
         [builder setByteLimitPost:strongSelf->_byteLimitPost];
+        [builder setIntegrationKey:strongSelf->_integrationKey];
+        [builder setStatsCollectorVersion:strongSelf->_statsCollectorVersion];
     }];
 }
 
@@ -187,6 +191,20 @@ const NSUInteger POST_WRAPPER_BYTES = 88;
 - (void)setEventStore:(id<SPEventStore>)eventStore {
     if (!_builderFinished || !_eventStore || [_eventStore count] == 0 ) {
         _eventStore = eventStore;
+    }
+}
+
+- (void)setIntegrationKey:(NSString *)integrationKey {
+    _integrationKey = integrationKey;
+    if (_builderFinished && _networkConnection) {
+        [self setupNetworkConnection];
+    }
+}
+
+- (void)setStatsCollectorVersion:(NSString *)statsCollectorVersion {
+    _statsCollectorVersion = statsCollectorVersion;
+    if (_builderFinished && _networkConnection) {
+        [self setupNetworkConnection];
     }
 }
 

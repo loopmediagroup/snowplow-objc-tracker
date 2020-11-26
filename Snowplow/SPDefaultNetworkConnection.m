@@ -33,6 +33,8 @@
     NSUInteger _byteLimitGet;
     NSUInteger _byteLimitPost;
     NSString *_customPostPath;
+    NSString *_integrationKey;
+    NSString *_statsCollectorVersion;
 
     NSOperationQueue *_dataOperationQueue;
     NSURL *_urlEndpoint;
@@ -56,6 +58,8 @@
         _byteLimitGet = 40000;
         _byteLimitPost = 40000;
         _customPostPath = nil;
+        _integrationKey = nil;
+        _statsCollectorVersion = nil;
         _dataOperationQueue = [[NSOperationQueue alloc] init];
         _builderFinished = NO;
     }
@@ -129,6 +133,14 @@
     _customPostPath = customPath;
 }
 
+- (void)setIntegrationKey:(NSString *)integrationKey {
+    _integrationKey = integrationKey;
+}
+
+- (void)setStatsCollectorVersion:(NSString *)statsCollectorVersion {
+    _statsCollectorVersion = statsCollectorVersion;
+}
+
 // MARK: - Implement SPNetworkConnection protocol
 
 - (SPRequestOptions)httpMethod {
@@ -147,6 +159,9 @@
         ? [self buildGetRequest:request]
         : [self buildPostRequest:request];
 
+        if (_integrationKey) [urlRequest setValue:_integrationKey forHTTPHeaderField:@"X-Integration-Write-Key"];
+        if (_statsCollectorVersion) [urlRequest setValue:_statsCollectorVersion forHTTPHeaderField:@"X-Api-Version"];
+        
         [_dataOperationQueue addOperationWithBlock:^{
             //source: https://forums.developer.apple.com/thread/11519
             __block NSHTTPURLResponse *httpResponse = nil;

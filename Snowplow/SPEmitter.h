@@ -138,6 +138,18 @@ typedef NS_ENUM(NSUInteger, SPBufferOption) {
  */
 - (void) setEventStore:(id<SPEventStore>)eventStore;
 
+/*!
+ @brief Emitter builder method to set GITL custom IntegrationKey component.
+ @param integrationKey GITL custom IntegrationKey..
+ */
+- (void) setIntegrationKey:(NSString *)integrationKey;
+
+/*!
+ @brief Emitter builder method to set GITL Stats Collection Version.
+ @param statsCollectorVersion GITL Stats Collection Version.
+ */
+- (void) setStatsCollectorVersion:(NSString *)statsCollectorVersion;
+
 @end
 
 /*!
@@ -168,6 +180,10 @@ typedef NS_ENUM(NSUInteger, SPBufferOption) {
 @property (readonly, nonatomic, weak) id<SPRequestCallback> callback;
 /*! @brief Custom endpoint path for POST requests. */
 @property (readonly, nonatomic) NSString *customPostPath;
+/*! @brief Custom GITL IntegrationKey  */
+@property (readonly, nonatomic) NSString *integrationKey;
+/*! @brief Custom GITL StatsCollectorVersion  */
+@property (readonly, nonatomic) NSString *statsCollectorVersion;
 
 /*!
  @brief Builds the emitter using a build block of functions.

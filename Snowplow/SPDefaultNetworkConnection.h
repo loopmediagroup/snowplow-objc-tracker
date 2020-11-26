@@ -69,6 +69,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void) setCustomPostPath:(NSString *)customPath;
 
+/*!
+ @brief Builder method to set GITL custom IntegrationKey component.
+ @param integrationKey GITL custom IntegrationKey..
+ */
+- (void) setIntegrationKey:(NSString *)integrationKey;
+
+/*!
+ @brief Builder method to set GITL Stats Collection Version.
+ @param statsCollectorVersion GITL Stats Collection Version.
+ */
+- (void) setStatsCollectorVersion:(NSString *)statsCollectorVersion;
+
 @end
 
 @interface SPDefaultNetworkConnection : NSObject <SPNetworkConnection, SPDefaultNetworkConnectionBuilder>
